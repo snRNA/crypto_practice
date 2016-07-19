@@ -1,0 +1,5 @@
+http://blog.chinaunix.net/uid-1789246-id-2848080.html
+http://blog.sina.com.cn/s/blog_6ad6243801013em0.html
+https://www.digitalocean.com/community/tutorials/how-to-create-a-ssl-certificate-on-apache-for-ubuntu-14-04?utm_source=legacy_reroute
+http://www.codeweblog.com/shell%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0%E7%94%9F%E6%88%90ssl%E8%87%AA%E7%AD%BE%E7%BD%B2%E8%AF%81%E4%B9%A6/
+

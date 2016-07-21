@@ -1,2 +1,0 @@
-请修改includes.php以定位WebKey文件夹的位置
-ApacheSetting/apache2为/etc/apache2的配置

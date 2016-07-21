@@ -1,0 +1,71 @@
+#suggestions {
+    margin-top: 35px;
+    color: #ccc;
+}
+
+#suggestions a {
+    color: #666666;
+    font-weight: 200;
+    font-size: 18px;
+    margin: 0 10px;
+}
+
+#main-table-div {
+    -moz-transform: scale(0.90);
+    -o-transform: scale(0.90);
+    -webkit-transform: scale(0.90);
+    /*position : absolute;*/
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    /*height: 200px;
+    overflow-y: scroll;*/
+}
+
+#main-table-th-tb {
+}
+
+.col1 {
+    width: 50px;
+}
+
+.col2 {
+    width: 230px;
+    max-width: 230px;
+}
+
+.col3 {
+    width: 100px;
+}
+
+.col4 {
+    width: 150px;
+    max-width: 150px;
+}
+
+.col5 {
+    width: 100px;
+    max-width: 100px;
+}
+
+.col6 {
+    width: 100px;
+    max-width: 100px;
+}
+
+.col7 {
+    width: 200px;
+}
+
+.col8 {
+    width: 80px;
+}
+
+thead {
+    background-color: coral
+}
+
+#main-table-td {
+
+}

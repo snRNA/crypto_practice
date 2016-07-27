@@ -6,6 +6,8 @@
  * Time: 8:25 AM
  */
 
+session_start();
+
 if(!isset($_POST['sign_in']))
 {
     echo "Access denied for without sign in";
@@ -26,7 +28,7 @@ $password = get_input($_POST['password']);
 
 
 
-include("../connect.php");
+include("../public_lib/connect.php");
 //var_dump($username);
 $sql = "SELECT * FROM user WHERE username = '$username' limit 1";
 $query = mysqli_query($connect,$sql);
@@ -37,8 +39,11 @@ if($query){
     //var_dump($data);
     if(password_verify($password,$data['password']))
     {
-        echo "Welcome ".$username." !</br>";
-        echo "Go to <a href = '../user/test.html'>User Center</a>";
+        $_SESSION['username'] = $username;
+        $_SESSION['uid'] = $data['uid'];
+        //var_dump($_SESSION);
+        echo "</br>Welcome ".$username." !</br>";
+        echo "Go to <a href = '../up_down/index.php'>User Center</a>";
         mysqli_close($connect);
         exit;
     }

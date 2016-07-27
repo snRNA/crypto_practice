@@ -41,18 +41,30 @@ if(strlen($password)<8 ||strlen($password)>36)
     exit;
 }else
 {
-    if(!check_pass($password))
-    {
-        echo "Error! The password is too easy,please make it harder! </br>";
-        echo "<a href='javascript:history.back(-1)'>return</a>";
-        exit;
-    }
+//    if(!check_pass($password))
+//    {
+//        echo "Error! The password is too easy,please make it harder! </br>";
+//        echo "<a href='javascript:history.back(-1)'>return</a>";
+//        exit;
+//    }
 }
 
 
 $password = password_hash($password,PASSWORD_DEFAULT);
 
-include('../connect.php');
+$config = array(
+    "digest_alg" => "sha256",
+    "private_key_bits" => 1024,
+    "private_key_type" => OPENSSL_KEYTYPE_RSA,
+);
+
+
+$res = openssl_pkey_new($config);
+openssl_pkey_export($res,$pri_key);
+$pub_key = openssl_pkey_get_details($res);
+$pub_key = $pub_key['key'];
+
+include('../public_lib/connect.php');
 
 $check = mysqli_query($connect,"SELECT uid FROM user WHERE username ='$username' limit 1");
 if(mysqli_fetch_array($check)){
@@ -61,7 +73,9 @@ if(mysqli_fetch_array($check)){
     exit;
 }
 echo(mysqli_error($connect));
-$sql = "INSERT INTO user (username, password, email, create_time)VALUES ('$username', '$password','$email',NOW())";
+
+$uniq_id = getUniqidName();
+$sql = "INSERT INTO user (username, password, email, create_time,pub_key,pri_key,uniq_id)VALUES ('$username', '$password','$email',NOW(),'$pub_key','$pri_key','$uniq_id')";
 if(mysqli_query($connect,$sql)){
     mysqli_close($connect);
     exit ("Sign up Success! Go to <a href = '../login.html'>Sign in</a>");
@@ -88,4 +102,8 @@ function get_input($input)
 function check_pass($pass)
 {
 
+}
+
+function getUniqidName($length=10){
+    return substr(md5(uniqid(microtime(true),true)),0,$length);
 }

@@ -7,7 +7,9 @@
  */
 
 
+session_start();
 
+include ("../public_lib/check_login.php");
 
 echo"<html>
 <head>
@@ -55,7 +57,7 @@ echo"<html>
 <fieldset>
     <legend>文件上传与下载</legend>
     <a>
-        <a href='../up_down/index.php'><input type=\"button\" value=\"上传\"> </br></a>
+        <a href='../up_down/upload.php'><input type=\"button\" value=\"上传\"> </br></a>
         <a href='../up_down/filelist.php'><input type=\"button\" value=\"下载\"> </br></a>
         <a href='logout.php' <input type=\"button\" value=\"退出\"> </br></a>
     </form>

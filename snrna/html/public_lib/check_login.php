@@ -8,6 +8,6 @@
 
 //var_dump($_SESSION);
 if(!isset($_SESSION['uid'])){
-    header('Location:../login.html');
+    header('Location:../index.html');
     exit();
 }

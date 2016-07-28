@@ -11,8 +11,7 @@ session_start();
 
 include ("../public_lib/connect.php");
 
-//$key = getUniqidName(6);
-//$time = mktime(0,0,0,date("m"),date("d")+2,date("Y"));
+
 
 $filename =get_input($_GET['filename']);
 $ownerid = get_input($_GET['ownerid']);

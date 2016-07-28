@@ -14,12 +14,6 @@ if(!isset($_POST['sign_in']))
     header("Location:../index.html");
 }
 
-//if(!isset($_POST['username']) or !isset($_POST['password']))
-//{
-//    echo "Some inputs could be blank,retry!</br>";
-//    echo "<a href='../index.html'>return </a>";
-//}
-
 
 $username = get_input($_POST['username']);
 $password = get_input($_POST['password']);
@@ -40,7 +34,7 @@ if($query){
         $_SESSION['uid'] = $data['uid'];
         //var_dump($_SESSION);
         echo "</br>Welcome ".$username." !</br>";
-        echo "Go to <a href = '../up_down/index.php'>User Center</a>";
+        echo "Go to <a href = 'user_center.php'>User Center</a>";
         mysqli_close($connect);
         exit;
     }

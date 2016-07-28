@@ -11,4 +11,4 @@ session_start();
 unset($_SESSION['uid']);
 unset($_SESSION['username']);
 echo "Log out success!</br>";
-echo " <a href = '../Login.html'> return</a> ";
+echo " <a href = '../index.html'> return</a> ";

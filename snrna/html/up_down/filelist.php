@@ -50,9 +50,9 @@
         ?>
     </div>
     <div id='suggestions'>
-        <a href='../accounts/my.php'>用户中心</a>
+        <a href='../reg_log/user_center.php'>用户中心</a>
         <a href='upload.php'>上传文件</a>
-        <a href='../accounts/login.php?action=logout'>退出</a>
+        <a href='../reg_log/logout.php'>退出</a>
     </div>
 </center>
 </html>

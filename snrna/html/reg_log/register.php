@@ -12,17 +12,19 @@ if (!isset($_POST['sign_up']))
     header("Location:../index.html");
     exit;
 }
-//
-//if((!isset($_post['username']))or(!isset($_POST['password']))or(!isset($_POST['email'])))
-//{
-//    echo "Some input could be blank,retry.</br>";
-//    echo "<a = href = 'javascript:history.back(-1);'>return</a>";
-//    exit;
-//}
+
 
 $username = get_input($_POST['username']);
 $password = get_input($_POST['password']);
 $email = get_input($_POST['email']);
+$repass = get_input($_POST['repass']);
+
+if($password!= $repass)
+{
+    echo("Error! Username is out of the rule!</br>");
+    echo "<a href='javascript:history.back(-1);'>return</a>";
+    exit;
+}
 
 
 if(!preg_match('/^[\x{4E00}-\x{9FFF}\w\-\_\.]+$/u',$username))
@@ -52,17 +54,6 @@ if(strlen($password)<8 ||strlen($password)>36)
 
 $password = password_hash($password,PASSWORD_DEFAULT);
 
-//$config = array(
-//    "digest_alg" => "sha256",
-//    "private_key_bits" => 1024,
-//    "private_key_type" => OPENSSL_KEYTYPE_RSA,
-//);
-//
-//
-//$res = openssl_pkey_new($config);
-//openssl_pkey_export($res,$pri_key);
-//$pub_key = openssl_pkey_get_details($res);
-//$pub_key = $pub_key['key'];
 
 include('../public_lib/connect.php');
 
@@ -101,7 +92,8 @@ function get_input($input)
 
 function check_pass($pass)
 {
-    return (preg_match('/[0-9]/', $pass) && preg_match('/[a-z]/i', $pass) && preg_match('/[\-\_\.\+\=]/', $pass));
+    return (preg_match('/[0-9]/', $pass) && preg_match('/[a-z]/i', $pass));
+    //return (preg_match('/[0-9]/', $pass) && preg_match('/[a-z]/i', $pass) && preg_match('/[\-\_\.\+\=]/', $pass));
 }
 
 function getUniqidName($length=10){

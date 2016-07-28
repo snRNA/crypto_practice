@@ -25,7 +25,7 @@ if (isset($_GET['code'])) {
 //    var_dump($link);
 }
 else{
-    alertMsg("lack share code!","../Login,html");
+    alertMsg("lack share code!","../index,html");
 }
 //var_dump($link);
 

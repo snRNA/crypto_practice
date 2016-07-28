@@ -9,9 +9,12 @@
 require_once "../public_lib/common_func.php";
 include ("../public_lib/connect.php");
 include ("file_crypt.php");
-session_start();
 
-var_dump($_FILES);
+session_start();
+include ("../public_lib/check_login.php");
+
+
+//var_dump($_FILES);
 
 
 $path = '../file';
@@ -31,7 +34,7 @@ function uploadFile ($fileInfo,$path,$connect){
 
             // add control message
 
-            if(filesize($fileInfo['tmp_name']) > 1048576)  //10MB
+            if(filesize($fileInfo['tmp_name']) > 1048576)  //10MB  modify php.ini post_max_size  upload_max_filesize
             {
                 $msg = "File size over 10MB";
                 return $msg;
@@ -39,14 +42,17 @@ function uploadFile ($fileInfo,$path,$connect){
 
             if(!fileTypeCheck($fileInfo))
             {
-                $msg = "Upload illegal file typs!";
+                $msg = "Upload illegal file types!";
                 return $msg;
             }
 
             $file_sha1 = sha1_file($fileInfo['tmp_name']);
             $filename = sha1($fileInfo['name']);
+
+
             $ownerid = $_SESSION['uid'];
             $origin_name = $fileInfo['name'];
+
 
             $sql = "select password,uniq_id from user where uid = '$ownerid' limit 1";
 
@@ -57,9 +63,18 @@ function uploadFile ($fileInfo,$path,$connect){
                 return $msg;
             }
             $row = mysqli_fetch_row($result);
-            //var_dump($row);
 
-            $key = substr($row[0],0,32);
+            $password =$row[0];
+            $uniq_id = $row[1];
+
+            if(file_exists("../file/".$uniq_id."/".$filename))
+            {
+
+                $msg ="You have uploaded the same file";
+                return $msg;
+            }
+
+            $key = substr($password,0,32);
             $des_tmp = "/tmp/".$filename;
             $info_array = fileEncrypt($fileInfo['tmp_name'],$des_tmp,$key);
             $iv = $info_array['iv'];
@@ -95,10 +110,13 @@ function uploadFile ($fileInfo,$path,$connect){
 
 
             //file_put_contents()
-            echo "iv1: ".$iv."</br>";
+            //echo "iv1: ".$iv."</br>";
+
+            $sign_dst = $path."/".$row[1]."/".substr($filename,0,10).".sign";
+
 
             $sql = "insert into file(filename,origin_name,ownerid,uploadtime,file_sha1,iv,sign,padding)VALUES
- ('$filename','$origin_name','$ownerid',NOW(),'$file_sha1','$iv','$sign','$padding')";
+ ('$filename','$origin_name','$ownerid',NOW(),'$file_sha1','$iv','$sign_dst','$padding')";
 
             //var_dump()
             //var_dump(mysqli_query($connect,$sql));
@@ -117,7 +135,7 @@ function uploadFile ($fileInfo,$path,$connect){
             $destination = $path."/".$row[1]."/".$filename;
 
 
-            $sign_dst = $path."/".$row[1]."/".substr($filename,0,10).".sign";
+
 
             file_put_contents($sign_dst,$sign);
 
@@ -131,8 +149,9 @@ function uploadFile ($fileInfo,$path,$connect){
             }else{
                 $msg = "Move file failed";
             }
-        }else{
-            $msg = "Uploading is not from POST!";
+        }
+        else{
+            $msg = "Uploading is refused by is_uploaded_file()";
         }
     }else
     {
@@ -146,15 +165,21 @@ function uploadFile ($fileInfo,$path,$connect){
 function fileTypeCheck ($fileInfo)
 {
     $type_array = array(
-        "image/gif",
-        "image/jpeg",
-        "image/png",
-        "image/bmp",
-        "text/plain",
-        "application/pdf",
-        "application/msword",
-        "application/vnd.ms-powerpoint",
-        "application/vnd.ms-excel"
+        "image/gif",       //gif
+        "image/jpeg",     //jpeg
+        "image/png",     //png
+        "image/bmp",    // bmp
+        "image/x-icon",   //ico
+        "image/tiff",     //tif tiff
+        "image/vnd.adobe.photoshop", //psd
+        "text/plain",  // txt text conf def list log in
+        "application/pdf",  //pdf
+        "application/msword",   //doc dot
+        "application/vnd.ms-powerpoint",  //ppt pps pot
+        "application/vnd.ms-excel",  //xls xlm xla xlc xlt xlw
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",  //docx
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",  //xlsx
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation", //pptx
     );
 
     foreach ($type_array as $test)

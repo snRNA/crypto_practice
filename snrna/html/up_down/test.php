@@ -13,7 +13,7 @@ include("../up_down/file_crypt.php");
 
 $dst = "ad0e41e78190a15595280c1e3883a77567c8c99b";
 $data = file_get_contents("../file/test123456/".$dst);
-//$data = sha1_file("file/test123456/".$dst);
+
 
 $sign = file_get_contents("../file/test123456/".substr($dst,0,10).".sign");
 
@@ -46,14 +46,14 @@ fileDecrypt("../file/test123456/".$dst,$origin,$iv,$key,$padding);
 $test = sha1_file($origin);
 
 
-echo (md5($origin));
+//echo (md5($origin));
 
 echo "</br>";
 
-echo (md5("../file/test123456/".$dst));
+//echo (md5("../file/test123456/".$dst));
 
 echo "</br>";
-echo (openssl_verify($test,$sign,$pubkey,"sha512WithRSAEncryption"));
+//echo (openssl_verify($test,$sign,$pubkey,"sha512WithRSAEncryption"));
 
 if (openssl_verify($test,$sign,$pubkey,"sha512WithRSAEncryption"))
 {

@@ -21,11 +21,8 @@ if(!isset($_POST['sign_in']))
 //}
 
 
-
 $username = get_input($_POST['username']);
 $password = get_input($_POST['password']);
-
-
 
 
 include("../public_lib/connect.php");
